@@ -305,7 +305,7 @@ with st.sidebar:
             st.success("캐시 초기화 완료!")
             st.rerun()
     with btn_col2:
-        if st.button("🔍 필터 적용", use_container_width=True, help="설정한 유니버스 범위를 적용합니다."):
+        if st.button("🔍 필터 적용", type="primary", use_container_width=True, help="설정한 유니버스 범위를 적용합니다."):
             st.rerun()
 
 # ================================================================================
