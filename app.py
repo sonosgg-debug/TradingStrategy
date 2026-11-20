@@ -13,6 +13,7 @@ from datetime import datetime, date, timedelta
 import streamlit as st
 import pandas as pd
 import numpy as np
+from PIL import Image
 
 # 보조 모듈 import 및 강제 리로드 의무화 (가이드 05 준수: Zero Stale Module Freezing)
 import data_loader
@@ -44,11 +45,21 @@ from backtest import run_quick_backtest
 from excel_exporter import create_excel_bytes, prepare_export_dataframe
 
 # ================================================================================
-# 1. 페이지 기본 설정 (가이드 01 준수)
+# 1. 페이지 기본 설정 (가이드 01 준수: 탭 파비콘 favicon.png 적용)
 # ================================================================================
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FAVICON_PATH = os.path.join(BASE_DIR, "favicon.png")
+try:
+    if os.path.exists(FAVICON_PATH):
+        PAGE_ICON = Image.open(FAVICON_PATH)
+    else:
+        PAGE_ICON = "📈"
+except Exception:
+    PAGE_ICON = "📈"
+
 st.set_page_config(
     page_title="Trading Strategy & Screening Parameters",
-    page_icon="📈",
+    page_icon=PAGE_ICON,
     layout="wide",
     initial_sidebar_state="expanded"
 )
