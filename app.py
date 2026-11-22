@@ -650,7 +650,7 @@ if df_results is not None:
                 "종목명": st.column_config.TextColumn("종목명", width="medium"),
                 "시장": st.column_config.TextColumn("시장", width="small"),
                 "시가총액": st.column_config.NumberColumn("시총(억원)", format="%,d"),
-                "현재가": st.column_config.NumberColumn("현재가(원)", format="%,d원"),
+                "현재가": st.column_config.NumberColumn("현재가(원)", format="%,d"),
                 "등락률": st.column_config.NumberColumn("등락률(%)", format="%.2f%%"),
                 "5일평균거래대금": st.column_config.NumberColumn("5일거래대금(억)", format="%,.1f"),
                 "20일선 이격도": st.column_config.NumberColumn("20일이격도(%)", format="%.1f%%"),
