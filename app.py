@@ -634,7 +634,7 @@ if df_results is not None:
 
         # 표시용 정제 데이터프레임 구성
         display_cols = [
-            "종목코드", "종목명", "시장", "현재가", "등락률", "시가총액",
+            "종목코드", "종목명", "시장", "시가총액", "현재가", "등락률",
             "5일평균거래대금", "20일선 이격도", "IBS", "RSI(14)", "볼린저 %B",
             "거래량 비율", "적합도 점수", "투자의견"
         ]
@@ -649,10 +649,10 @@ if df_results is not None:
                 "종목코드": st.column_config.TextColumn("코드", width="small"),
                 "종목명": st.column_config.TextColumn("종목명", width="medium"),
                 "시장": st.column_config.TextColumn("시장", width="small"),
-                "현재가": st.column_config.NumberColumn("현재가(원)", format="%d원"),
+                "시가총액": st.column_config.NumberColumn("시총(억원)", format="%,d"),
+                "현재가": st.column_config.NumberColumn("현재가(원)", format="%,d원"),
                 "등락률": st.column_config.NumberColumn("등락률(%)", format="%.2f%%"),
-                "시가총액": st.column_config.NumberColumn("시총(억원)", format="%d억원"),
-                "5일평균거래대금": st.column_config.NumberColumn("5일거래대금(억)", format="%.1f억"),
+                "5일평균거래대금": st.column_config.NumberColumn("5일거래대금(억)", format="%,.1f"),
                 "20일선 이격도": st.column_config.NumberColumn("20일이격도(%)", format="%.1f%%"),
                 "IBS": st.column_config.NumberColumn("IBS(0~1)", format="%.2f"),
                 "RSI(14)": st.column_config.NumberColumn("RSI", format="%.1f"),

@@ -15,9 +15,9 @@ EXPORT_HEADERS = [
     "종목코드",
     "종목명",
     "시장",
+    "시가총액(억원)",
     "현재가",
     "등락률(%)",
-    "시가총액(억원)",
     "5일평균거래대금(억원)",
     "20일선 이격도(%)",
     "IBS",
@@ -40,9 +40,9 @@ def prepare_export_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df_out["종목코드"] = df["종목코드"].astype(str).str.zfill(6) if "종목코드" in df else ""
     df_out["종목명"] = df.get("종목명", "")
     df_out["시장"] = df.get("시장", "")
+    df_out["시가총액(억원)"] = pd.to_numeric(df.get("시가총액", 0), errors="coerce").fillna(0).astype(int)
     df_out["현재가"] = pd.to_numeric(df.get("현재가", 0), errors="coerce").fillna(0).astype(int)
     df_out["등락률(%)"] = pd.to_numeric(df.get("등락률", 0.0), errors="coerce").round(2)
-    df_out["시가총액(억원)"] = pd.to_numeric(df.get("시가총액", 0), errors="coerce").fillna(0).astype(int)
     df_out["5일평균거래대금(억원)"] = pd.to_numeric(df.get("5일평균거래대금", 0.0), errors="coerce").round(1)
     df_out["20일선 이격도(%)"] = pd.to_numeric(df.get("20일선 이격도", 100.0), errors="coerce").round(1)
     df_out["IBS"] = pd.to_numeric(df.get("IBS", 0.5), errors="coerce").round(2)
@@ -126,10 +126,12 @@ def create_excel_bytes(df: pd.DataFrame) -> bytes:
             else:
                 cell.alignment = align_right
 
-            # 숫자 서식
+            # 숫자 서식 (단위 글자 없이 순수 숫자로 포맷팅)
             if header_name in ["현재가", "시가총액(억원)"]:
                 cell.number_format = "#,##0"
-            elif header_name in ["등락률(%)", "5일평균거래대금(억원)", "20일선 이격도(%)", "IBS", "RSI(14)", "볼린저 %B", "거래량 비율(%)"]:
+            elif header_name in ["5일평균거래대금(억원)"]:
+                cell.number_format = "#,##0.0"
+            elif header_name in ["등락률(%)", "20일선 이격도(%)", "IBS", "RSI(14)", "볼린저 %B", "거래량 비율(%)"]:
                 cell.number_format = "#,##0.00"
 
             # 강조
