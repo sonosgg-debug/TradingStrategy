@@ -264,22 +264,29 @@ def evaluate_pullback_at_bar(df: pd.DataFrame, idx: int = -1, params: dict = Non
 
     score = int(np.clip(score, 0, 100))
 
-    # 종합 의견 결정
+    # ------------------ 종합 의견 결정 (퀀트 점수 기반 차등화) ------------------
     min_score_required = params.get("min_score", 55)
-    is_buy = (score >= min_score_required) and all(checks.values())
 
-    if score >= 75 and is_buy:
+    # 퀀트 핵심 필수 조건 (대세 추세선 상회 및 20일선 이격도 수렴)
+    core_pass = checks.get("장기추세 (Close > MA)", True) and checks.get("20일선 이격도 수렴", True)
+
+    # 점수 체계와 직관적으로 일치하는 투자의견 부여
+    if score >= 75 and core_pass:
         opinion = "STRONG BUY"
         opinion_kr = "강력 매수"
-    elif is_buy:
+        is_buy = True
+    elif score >= min_score_required and core_pass:
         opinion = "BUY"
         opinion_kr = "매수"
+        is_buy = True
     elif score >= 50:
         opinion = "WATCH"
         opinion_kr = "관망/대기"
+        is_buy = False
     else:
         opinion = "PASS"
         opinion_kr = "제외"
+        is_buy = False
 
     # 전일 대비 등락률
     prev_close = float(prev["Close"])
